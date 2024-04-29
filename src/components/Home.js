@@ -8,7 +8,7 @@ const Home = () => {
         <div className="home-container">
             <div className="intro-section">
                 <h1>Welcome to My Portfolio</h1>
-                <p>Hello! I’m Ram, a passionate Software Engineer. Explore my work and get in touch!</p>
+                <p>Hello! I’m Vishal, a passionate Software Engineer. Explore my work and get in touch!</p>
                 <Link to="/about" className="btn btn-primary">Learn More About Me</Link>
             </div>
             <div className="featured-projects">
