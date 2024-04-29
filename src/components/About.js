@@ -7,7 +7,7 @@ const About = () => {
             <h1>About Me</h1>
             <div className="bio-section">
                 <p>
-                    Hello! I'm Ram, a Software Engineer based in Overland Park, Kansas. 
+                    Hello! I'm Vishal, a Software Engineer. 
                     With a passion for creating innovative software solutions that improve everyday life, 
                     I have developed key projects like an automated testing framework that reduced bug rates by 30%.
                 </p>
@@ -30,7 +30,7 @@ const About = () => {
             </div>
             <div className="education-section">
                 <h2>Education</h2>
-                <p>Masters of Science in Computer Science, Park University</p>
+                <p>Masters of Science in IT</p>
             </div>
         </div>
     );
