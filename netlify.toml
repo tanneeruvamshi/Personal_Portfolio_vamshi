@@ -1,2 +1,2 @@
 [build]
-  command = "npm install --unsafe-perm --legacy-peer-deps && react-scripts build"
+  command = "npm install --unsafe-perm --force --legacy-peer-deps && react-scripts build"
