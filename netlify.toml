@@ -1,7 +1,7 @@
-# netlify.toml
+# # netlify.toml
 
-[build]
-  command = "npm install --force && react-scripts build"
+# [build]
+#   command = "npm install --force && react-scripts build"
 
-[build.environment]
-  FORCE_INSTALL = "true"
+# [build.environment]
+#   FORCE_INSTALL = "true"
