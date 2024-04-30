@@ -1,9 +1,7 @@
 # netlify.toml
 
 [build]
-  command = "npm install && npm run build"
-  # publish = "dist"
-  node_version = "16.14.0"
+  command = "npm install -f && react-scripts build"
 
 [build.environment]
   FORCE_INSTALL = "true"
