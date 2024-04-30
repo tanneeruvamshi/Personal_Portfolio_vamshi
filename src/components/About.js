@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Typography, Box, Grid, Card, CardContent } from '@mui/material';
 import { motion } from 'framer-motion';
 import anime from 'animejs/lib/anime.es.js';
-import Typical from 'react-typical';
+// import Typical from 'react-typical';
 
 const AnimatedCard = ({ children }) => {
     return (
@@ -80,13 +80,6 @@ const About = () => {
                     </AnimatedCard>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="h5" style={{ color: '#333333', fontWeight: 'bold', marginBottom: '8px', textAlign: 'center' }}>
-                        <Typical
-                            steps={['Good evening!', 5000, 'Welcome to my portfolio.', 2000]}
-                            loop={Infinity}
-                            wrapper="p"
-                        />
-                    </Typography>
                 </Grid>
             </Grid>
         </Box>
