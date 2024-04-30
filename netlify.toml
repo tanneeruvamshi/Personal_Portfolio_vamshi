@@ -1,2 +1,2 @@
 [build]
-  command = "npm install --legacy-peer-deps && react-scripts build"
+  command = "npm install --force && react-scripts build"
