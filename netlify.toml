@@ -1,7 +1,9 @@
 # netlify.toml
 
 [build]
-  command = "npm install -f && npm run build"  # Specify your build command here
+ [build]
+  command = "npm install --legacy-peer-deps && npm run build"
+  # Specify your build command here
   # publish = "dist"  # Specify the directory to publish
 
 # Forcefully install dependencies before the build process
