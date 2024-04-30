@@ -1,35 +1,49 @@
 .contact-form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: auto;
-    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333333;
     text-align: center;
 }
 
 .contact-form label {
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom: 15px;
+    color: #555555;
 }
 
 .contact-form input,
 .contact-form textarea {
-    margin-bottom: 10px;
-    padding: 8px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
+.contact-form textarea {
+    resize: vertical;
+}
+
 .contact-form button {
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
     border: none;
     border-radius: 4px;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .contact-form button:hover {

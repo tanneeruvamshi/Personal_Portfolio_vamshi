@@ -1,24 +1,36 @@
 import React from 'react';
-import ProjectCard from './ProjectCard'; 
+import { Container, Header, Segment, Grid } from 'semantic-ui-react';
+import { useTrail, animated } from 'react-spring';
 import { projects } from '../data/ProjectsData'; 
-import '../styles/Portfolio.css'; 
 
 const Portfolio = () => {
+    // Define a trail for animations
+    const trail = useTrail(projects.length, {
+        from: { opacity: 0, transform: 'translate3d(0, 50px, 0)' },
+        to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
+    });
+
     return (
-        <div className="portfolio-container">
-            <h1>My Portfolio</h1>
-            <p>Here are some of the projects I've worked on. Click on any project to learn more about it.</p>
-            <div className="projects-grid">
-                {projects.map(project => (
-                    <ProjectCard 
-                        key={project.id}
-                        title={project.title}
-                        description={project.description}
-                        imageUrl={project.imageUrl}
-                        link={project.link}
-                    />
-                ))}
-            </div>
+        <div style={{ minHeight: '100vh', position: 'relative' }}>
+            <Container textAlign="center" style={{ marginTop: '4em', marginBottom: '4em' }}>
+                <Segment raised>
+                    <Header as="h2" content="My Portfolio" />
+                    <p>Explore some of the projects I've worked on below:</p>
+                    <Grid columns={3}>
+                        {trail.map((style, index) => (
+                            <Grid.Column key={projects[index].id}>
+                                <animated.div style={style}>
+                                    <Segment>
+                                        <Header as="h3" content={projects[index].title} />
+                                        <p>{projects[index].description}</p>
+                                    </Segment>
+                                </animated.div>
+                            </Grid.Column>
+                        ))}
+                    </Grid>
+                </Segment>
+            </Container>
+        
         </div>
     );
 }
