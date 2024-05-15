@@ -40,6 +40,43 @@ const ContactForm = () => {
     message: '',
   });
 
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validateForm = () => {
+    let formIsValid = true;
+    let errors = {};
+
+    if (!formData.name) {
+      formIsValid = false;
+      errors.name = 'Name is required';
+    }
+
+    if (!formData.email) {
+      formIsValid = false;
+      errors.email = 'Email is required';
+    } else if (!validateEmail(formData.email)) {
+      formIsValid = false;
+      errors.email = 'Email is not valid';
+    }
+
+    if (!formData.message) {
+      formIsValid = false;
+      errors.message = 'Message is required';
+    }
+
+    setErrors(errors);
+    return formIsValid;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -50,20 +87,10 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const data = new FormData(form);
-    const response = await fetch(form.action, {
-      method: 'POST',
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-      },
-    });
-    if (response.ok) {
+    if (validateForm()) {
       alert('Thank you for your message! We will get back to you soon.');
       setFormData({ name: '', email: '', message: '' }); // Reset form after successful submission
-    } else {
-      alert('Oops! Something went wrong. Please try again later.');
+      setErrors({ name: '', email: '', message: '' });
     }
   };
 
@@ -81,11 +108,7 @@ const ContactForm = () => {
                 <Typography variant="h4" sx={{ color: 'primary.main', marginBottom: 4, fontWeight: 'bold' }}>
                   Contact Me
                 </Typography>
-                <form
-                  onSubmit={handleSubmit}
-                  action="https://formspree.io/f/xvoelkkl"
-                  method="POST"
-                >
+                <form onSubmit={handleSubmit}>
                   <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -101,10 +124,15 @@ const ContactForm = () => {
                       variant="outlined"
                       value={formData.name}
                       onChange={handleChange}
+                      error={!!errors.name}
+                      helperText={errors.name}
                       sx={{ 
                         '& fieldset': { 
                           borderColor: 'primary.main',
                         }, 
+                        '& input': {
+                          backgroundColor: 'transparent', // Make input background transparent
+                        },
                         '&:hover fieldset': { 
                           borderColor: 'secondary.main',
                         }, 
@@ -129,10 +157,15 @@ const ContactForm = () => {
                       variant="outlined"
                       value={formData.email}
                       onChange={handleChange}
+                      error={!!errors.email}
+                      helperText={errors.email}
                       sx={{ 
                         '& fieldset': { 
                           borderColor: 'primary.main',
-                        }, 
+                        },
+                        '& input': {
+                          backgroundColor: 'transparent', // Make input background transparent
+                        },
                         '&:hover fieldset': { 
                           borderColor: 'secondary.main',
                         }, 
@@ -159,6 +192,8 @@ const ContactForm = () => {
                       rows={4}
                       value={formData.message}
                       onChange={handleChange}
+                      error={!!errors.message}
+                      helperText={errors.message}
                       sx={{ 
                         '& fieldset': { 
                           borderColor: 'primary.main',
