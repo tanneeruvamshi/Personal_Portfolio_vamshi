@@ -1,59 +1,270 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import React, { useEffect, useState } from 'react';
+import {
+  Avatar, Typography, Grid, Container, Button, Box, Card, CardContent, CardMedia,
+} from '@material-ui/core';
+import { makeStyles, createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { motion } from 'framer-motion';
-import profilePicture from '../data/Images/3526096B-D696-4B83-9116-ACA0B90388F1_1_105_c.jpeg';
-import '../styles/Home.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faEnvelope, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import profilePicture from '../data/Images/A7408710.jpeg';
+import keelaaImage from '../data/Images/Keelaa.png';
+import keepWellMantrasImage from '../data/Images/KeepwellMantras.png';
+
+const vibrantTheme = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#007bff',
+    },
+    secondary: {
+      main: '#ff4081',
+    },
+    background: {
+      default: '#f0f0f0',
+      paper: '#ffffff',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Arial", sans-serif',
+    h4: {
+      fontWeight: 700,
+      color: '#333',
+    },
+    body1: {
+      fontSize: '1rem',
+      color: '#666',
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
-  profilePicture: {
+  root: {
+    minHeight: '100vh',
+    padding: theme.spacing(3),
+    color: theme.palette.grey[800],
+    background: 'linear-gradient(to right, #ffffff, #e3f2fd)',
+    backgroundAttachment: 'fixed',
+  },
+  avatar: {
     width: theme.spacing(20),
     height: theme.spacing(20),
-    margin: '0 auto',
+    border: `5px solid ${theme.palette.primary.main}`,
+    marginBottom: theme.spacing(2),
   },
-  introText: {
+  section: {
+    margin: theme.spacing(5, 0),
     textAlign: 'center',
-    marginTop: theme.spacing(2),
+  },
+  contactLink: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: theme.palette.primary.main,
+    '& svg': {
+      marginRight: theme.spacing(1),
+    },
+    '&:hover': {
+      color: theme.palette.secondary.main,
+    },
   },
   button: {
+    marginTop: theme.spacing(3),
+    borderRadius: 25,
+    padding: '10px 20px', // Reduced padding
+    transition: 'background-color 0.3s',
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
+    },
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    display: 'inline-block', // Changed to inline-block
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontWeight: 500, // Reduced font weight
+    fontSize: '1rem', // Reduced font size
+    textAlign: 'center',
+  },
+  bgImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: -1,
+    opacity: 0.3,
+  },
+  container: {
+    position: 'relative',
+  },
+  headline: {
+    color: theme.palette.secondary.main,
+    marginBottom: theme.spacing(3),
+  },
+  paragraph: {
+    textAlign: 'left',
+    lineHeight: 1.6,
+    color: theme.palette.grey[700],
+  },
+  card: {
+    marginBottom: theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  cardMedia: {
+    height: 140,
+  },
+  cardContent: {
+    flexGrow: 1,
+    minHeight: 250,
+  },
+  contactIcons: {
     marginTop: theme.spacing(2),
+    '& svg': {
+      margin: theme.spacing(1),
+      fontSize: '1.5rem',
+      color: theme.palette.primary.main,
+      '&:hover': {
+        color: theme.palette.secondary.main,
+      },
+    },
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
+const TypingAnimation = ({ roles }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [typingIndex, setTypingIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentRole = roles[roleIndex];
+      if (deleting) {
+        setDisplayText(currentRole.substring(0, typingIndex - 1));
+        setTypingIndex(typingIndex - 1);
+      } else {
+        setDisplayText(currentRole.substring(0, typingIndex + 1));
+        setTypingIndex(typingIndex + 1);
+      }
+
+      if (!deleting && typingIndex === currentRole.length) {
+        setTimeout(() => setDeleting(true), 2000);
+      } else if (deleting && typingIndex === 0) {
+        setDeleting(false);
+        setRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
+      }
+    };
+
+    const typingSpeed = deleting ? 50 : 150;
+    const timer = setTimeout(handleTyping, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [roles, roleIndex, typingIndex, deleting]);
+
+  return <span>{displayText}</span>;
+};
+
 const Home = () => {
   const classes = useStyles();
+  const roles = ['Full Stack Developer', 'MERN Stack Developer', 'Backend Developer', 'Frontend Developer', 'Blockchain Developer'];
 
-  const buttonVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-  };
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  }, []);
 
   return (
-    <div className="home-container">
-      <div className="intro-section">
-        <Avatar alt="Profile Picture" src={profilePicture} className={classes.profilePicture} />
-        <div className={classes.introText}>
-          <h1>Vamshi Krishna Tanneeru</h1>
-          <p>Dallas, Texas, US | 913-351-0468 | vamshitanneeruus@gmail.com</p>
-          <p>
-            Accomplished Full Stack Developer with over five years of experience in technology and innovation.
-          </p>
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={buttonVariants}
-            transition={{ delay: 0.5 }}
-          >
-            <Button component={Link} to="/portfolio" variant="contained" color="primary" className={classes.button}>
-              View All Projects
-            </Button>
-          </motion.div>
-        </div>
-      </div>
-      {/* Remove the Featured Projects section */}
-    </div>
+    <ThemeProvider theme={vibrantTheme}>
+      <Box className={classes.bgImage} />
+      <Container maxWidth="lg" className={`${classes.root} ${classes.container}`}>
+        <Grid container spacing={4} alignItems="center" justifyContent="center">
+          <Grid item xs={12} md={4} component={motion.div} initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
+            <Avatar alt="Vamshi Krishna Tanneeru" src={profilePicture} className={classes.avatar} />
+            <Typography variant="h4" gutterBottom className={classes.headline}>
+              Vamshi Krishna Tanneeru
+            </Typography>
+            <Typography variant="body1" className={classes.section}>
+              <TypingAnimation roles={roles} />
+            </Typography>
+            <Typography className={classes.contactLink}>
+              <FontAwesomeIcon icon={faPhone} /> 913-351-0468
+            </Typography>
+            <Typography className={classes.contactLink}>
+              <FontAwesomeIcon icon={faEnvelope} /> vamshitanneeruus@gmail.com
+            </Typography>
+            <Box className={classes.contactIcons}>
+              <a href="https://www.linkedin.com/in/vamshi-tanneeru-a30773169/" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faLinkedin} />
+              </a>
+              <a href="https://github.com/tanneeruvamshi" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faGithub} />
+              </a>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={8} component={motion.div} initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
+            <Typography variant="h6" className={classes.section}>About Me</Typography>
+            <Typography variant="body1" paragraph className={classes.paragraph}>
+              As a skilled Full Stack Developer, I leverage a broad technology stack to build seamless applications that scale across ReactJS, NodeJS, and more. My deep interest in blockchain technology drives me to constantly explore innovative solutions in this rapidly evolving field.
+            </Typography>
+            <Typography variant="h6" className={classes.section}>Projects & Contributions</Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={keelaaImage}
+                    title="Keelaa"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography component="h5" variant="h5">
+                      Keelaa
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      Engineered an integrated registration suite for running events with ReactJS and NodeJS, improving the user journey from sign-up to participation. Facilitated real-time reporting and optimized sports equipment distribution with GraphQL, and deployed a high-quality chip timing system for live event result updates.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={keepWellMantrasImage}
+                    title="Keep Well Mantras"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography component="h5" variant="h5">
+                      Keep Well Mantras
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      Crucial in crafting the Keep Well Mantras fitness and nutrition platform, integrating Java Spring Boot and ReactJS for an intuitive user interface. Developed an extensive workout video library and dramatically enriched the platform by integrating a diverse array of fitness and nutrition programs. 
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+            <Box display="flex" justifyContent="center">
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                startIcon={<FontAwesomeIcon icon={faFileDownload} style={{ marginRight: '10px' }} />}
+                href={require('../data/Images/Tanneeru_v5_Resume.pdf')}
+                download
+              >
+                Download Resume
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </ThemeProvider>
   );
 };
 

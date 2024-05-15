@@ -1,89 +1,136 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Typography, Box, Grid, Card, CardContent } from '@mui/material';
-import { motion } from 'framer-motion';
-import anime from 'animejs/lib/anime.es.js';
-// import Typical from 'react-typical';
+import { makeStyles, createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { useSpring, animated } from 'react-spring';
+import { FaNodeJs, FaReact, FaAngular, FaJsSquare, FaHtml5, FaCss3Alt, FaJava, FaPython, FaDatabase, FaDocker } from 'react-icons/fa';
+
+const vibrantTheme = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#007bff',
+    },
+    secondary: {
+      main: '#ff4081',
+    },
+    background: {
+      default: '#f0f0f0',
+      paper: '#ffffff',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Arial", sans-serif',
+    h4: {
+      fontWeight: 700,
+      color: '#333',
+    },
+    body1: {
+      fontSize: '1rem',
+      color: '#666',
+    },
+  },
+});
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(8, 2),
+    background: 'linear-gradient(to right, #ffffff, #e3f2fd)',
+    minHeight: '100vh',
+  },
+  headline: {
+    color: theme.palette.secondary.main,
+    marginBottom: theme.spacing(3),
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  card: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    background: '#fff',
+    borderRadius: theme.spacing(2),
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden',
+    position: 'relative',
+    transition: 'transform 0.3s, box-shadow 0.3s',
+    '&:hover': {
+      transform: 'translateY(-10px)',
+      boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+    },
+  },
+  icon: {
+    fontSize: '3rem',
+    marginBottom: theme.spacing(1),
+    color: theme.palette.primary.main,
+  },
+  skillName: {
+    marginTop: theme.spacing(1),
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+  },
+  progressValue: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    color: theme.palette.secondary.main,
+  },
+}));
+
+const skills = [
+  { name: 'NodeJS', level: 9, icon: <FaNodeJs /> },
+  { name: 'ReactJS', level: 9, icon: <FaReact /> },
+  { name: 'AngularJS', level: 8, icon: <FaAngular /> },
+  { name: 'JavaScript', level: 10, icon: <FaJsSquare /> },
+  { name: 'HTML', level: 10, icon: <FaHtml5 /> },
+  { name: 'CSS', level: 9, icon: <FaCss3Alt /> },
+  { name: 'Java', level: 8, icon: <FaJava /> },
+  { name: 'Python', level: 9, icon: <FaPython /> },
+  { name: 'SQL', level: 8, icon: <FaDatabase /> },
+  { name: 'Docker', level: 7, icon: <FaDocker /> },
+];
 
 const AnimatedCard = ({ children }) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ width: '100%' }}
-        >
-            <Card raised sx={{ minHeight: 280, borderRadius: '16px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', background: '#FFFFFF', overflow: 'hidden' }}>
-                <CardContent>
-                    {children}
-                </CardContent>
-            </Card>
-        </motion.div>
-    );
+  const springProps = useSpring({
+    to: { opacity: 1, transform: 'translateY(0px)' },
+    from: { opacity: 0, transform: 'translateY(50px)' },
+    config: { tension: 170, friction: 26 },
+  });
+
+  return <animated.div style={springProps}>{children}</animated.div>;
+};
+
+const SkillRating = ({ name, level, icon }) => {
+  const classes = useStyles();
+
+  return (
+    <Grid item xs={12} sm={6} md={4}>
+      <AnimatedCard>
+        <Card className={classes.card}>
+          <div className={classes.icon}>{icon}</div>
+          <Typography variant="h6" className={classes.skillName}>
+            {name}
+          </Typography>
+          <Typography className={classes.progressValue}>{level}/10</Typography>
+        </Card>
+      </AnimatedCard>
+    </Grid>
+  );
 };
 
 const About = () => {
-    const targetRef = useRef(null);
+  const classes = useStyles();
 
-    useEffect(() => {
-        const animation = anime({
-            targets: targetRef.current,
-            translateX: 250,
-            rotate: '1turn',
-            backgroundColor: '#FFFFFF',
-            duration: 2000,
-            loop: true
-        });
-        return () => {
-            animation.pause();
-            animation.seek(0);
-        };
-    }, []);
-
-    return (
-        <Box sx={{ flexGrow: 1, padding: '64px 24px', background: '#FFFFFF', minHeight: '100vh' }}>
-            <Typography variant="h3" gutterBottom style={{ color: '#333333', fontWeight: 'bold', textAlign: 'center' }}>About Me</Typography>
-            <Grid container spacing={4} justifyContent="center">
-                <Grid item xs={12} md={6}>
-                    <AnimatedCard>
-                        <Typography variant="h5" style={{ color: '#333333', fontWeight: 'bold', marginBottom: '8px' }}>Vamshi Krishna Tanneeru</Typography>
-                        <ul style={{ color: '#555555', paddingLeft: '20px' }}>
-                            <li>Full Stack Developer based in Dallas, Texas</li>
-                            <li>Over five years of experience, specializing in software solutions.</li>
-                            <li>Expertise in architecting, developing, and optimizing applications.</li>
-                            <li>Skilled in a broad spectrum of programming languages and frameworks including NodeJS, Java, Python, Angular, and React.</li>
-                            <li>Distinguished by the ability to bridge complex business analysis with technical development.</li>
-                        </ul>
-                    </AnimatedCard>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <AnimatedCard>
-                        <Typography variant="h5" style={{ color: '#333333', fontWeight: 'bold', marginBottom: '8px' }}>Key Technologies</Typography>
-                        <ul style={{ color: '#555555', paddingLeft: '20px' }}>
-                            <li>NodeJS, Java, Python, ExpressJS, Spring Boot</li>
-                            <li>Angular, React, TypeScript, HTML5, CSS3</li>
-                            <li>Bootstrap 3, MongoDB, Redis, MySQL</li>
-                            <li>Google Cloud Platform (GCP), AWS (Amazon Web Services)</li>
-                            <li>VSCode (Visual Studio Code), Eclipse, NetBeans, Heroku</li>
-                        </ul>
-                    </AnimatedCard>
-                </Grid>
-                <Grid item xs={12}>
-                    <AnimatedCard>
-                        <Typography variant="h5" style={{ color: '#333333', fontWeight: 'bold', marginBottom: '8px' }}>Education</Typography>
-                        <ul style={{ color: '#555555', paddingLeft: '20px' }}>
-                            <li>M.Sc. in Information System and Business Analytics, Park University, Expected 2024</li>
-                            <li>M.Sc. in Software Engineering with Professional Placement, Kingston University, London, 2022</li>
-                            <li>B. Tech in Computer Science & Engineering, JNTU Affiliated University, Hyderabad, India, 2018</li>
-                        </ul>
-                    </AnimatedCard>
-                </Grid>
-                <Grid item xs={12}>
-                </Grid>
-            </Grid>
-        </Box>
-    );
+  return (
+    <ThemeProvider theme={vibrantTheme}>
+      <Box className={classes.root}>
+        <Typography variant="h3" className={classes.headline}>Skills</Typography>
+        <Grid container spacing={4} justifyContent="center">
+          {skills.map((skill) => (
+            <SkillRating key={skill.name} name={skill.name} level={skill.level} icon={skill.icon} />
+          ))}
+        </Grid>
+      </Box>
+    </ThemeProvider>
+  );
 };
 
 export default About;
