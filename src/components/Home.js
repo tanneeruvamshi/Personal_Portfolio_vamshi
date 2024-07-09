@@ -199,7 +199,7 @@ const Home = () => {
               <FontAwesomeIcon icon={faEnvelope} /> vamshitanneeruus@gmail.com
             </Typography>
             <Box className={classes.contactIcons}>
-              <a href="https://www.linkedin.com/in/vamshi-tanneeru-a30773169/" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faLinkedin} />
               </a>
               <a href="https://github.com/tanneeruvamshi" target="_blank" rel="noopener noreferrer">
@@ -249,18 +249,18 @@ const Home = () => {
                 </Card>
               </Grid>
             </Grid>
-            <Box display="flex" justifyContent="center">
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                startIcon={<FontAwesomeIcon icon={faFileDownload} style={{ marginRight: '10px' }} />}
-                href={require('../data/Images/Tanneeru_v5_Resume.pdf')}
-                download
-              >
-                Download Resume
-              </Button>
-            </Box>
+            // <Box display="flex" justifyContent="center">
+            //   <Button
+            //     variant="contained"
+            //     color="primary"
+            //     className={classes.button}
+            //     startIcon={<FontAwesomeIcon icon={faFileDownload} style={{ marginRight: '10px' }} />}
+            //     href={require('../data/Images/Tanneeru_v5_Resume.pdf')}
+            //     download
+            //   >
+            //     Download Resume
+            //   </Button>
+            // </Box>
           </Grid>
         </Grid>
       </Container>
