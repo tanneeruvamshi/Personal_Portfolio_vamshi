@@ -25,20 +25,20 @@ const Header = () => {
                             MyPortfolio
                         </Typography>
                         <nav>
-                            <ul style={{ listStyleType: 'none', padding: 0 }}>
-                                <li style={{ display: 'inline-block', marginRight: '20px' }}>
-                                    <Link to="/" className={classes.link}>Home</Link>
-                                </li>
-                                <li style={{ display: 'inline-block', marginRight: '20px' }}>
-                                    <Link to="/about" className={classes.link}>About</Link>
-                                </li>
-                                <li style={{ display: 'inline-block', marginRight: '20px' }}>
-                                    <Link to="/portfolio" className={classes.link}>Portfolio</Link>
-                                </li>
-                                <li style={{ display: 'inline-block' }}>
-                                    <Link to="/contact" className={classes.link}>Contact</Link>
-                                </li>
-                            </ul>
+                            // <ul style={{ listStyleType: 'none', padding: 0 }}>
+                            //     // <li style={{ display: 'inline-block', marginRight: '20px' }}>
+                            //     //     <Link to="/" className={classes.link}>Home</Link>
+                            //     // </li>
+                            //     // <li style={{ display: 'inline-block', marginRight: '20px' }}>
+                            //     //     <Link to="/about" className={classes.link}>About</Link>
+                            //     // </li>
+                            //     <li style={{ display: 'inline-block', marginRight: '20px' }}>
+                            //         <Link to="/portfolio" className={classes.link}>Portfolio</Link>
+                            //     </li>
+                            //     // <li style={{ display: 'inline-block' }}>
+                            //     //     <Link to="/contact" className={classes.link}>Contact</Link>
+                            //     // </li>
+                            // </ul>
                         </nav>
                     </Toolbar>
                 </AppBar>
